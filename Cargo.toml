@@ -1,0 +1,15 @@
+[package]
+name = "xnbloggen"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.42", features = ["serde"] }
+comrak = { version = "0.49.0", features = ["syntect"] }
+minijinja = { version = "2.14.0", features = ["builtins", "loader"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_yaml = "0.9.34"
+syntect = "5.3.0"
+thiserror = "2.0.17"
+tiny_http = "0.12.0"
+urlencoding = "2.1.3"
