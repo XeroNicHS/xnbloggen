@@ -14,6 +14,7 @@ use crate::content::content_loader::{load_all_contents, ContentLoaderError};
 use crate::context::common_context::SiteContext;
 use crate::context::content_context::ContentContext;
 use crate::context::list_context::{ListKind, PostListItem};
+use crate::utils::filters;
 use crate::utils::output;
 
 
@@ -64,6 +65,7 @@ pub fn run(root: &str) -> Result<(), BuildError> {
     // Load templates
     let mut template_env = Environment::new();
     template_env.set_loader(minijinja::path_loader(&theme_package.templates_dir));
+    filters::register_all(&mut template_env);
 
     output::info(&format!("Building blog '{}' with theme '{}'", blog_config.site.name, theme_package.name));
 
@@ -181,7 +183,7 @@ pub fn run(root: &str) -> Result<(), BuildError> {
                 continue;
             }
 
-            let slug = context_builder::slugify(term);
+            let slug = filters::slugify(term);
             let base_url = taxonomy_config.permalink.replace(":slug", &slug);
             let title = format!("{}: {}", taxonomy_config.label, term);
             let list_kind = ListKind::Taxonomy {

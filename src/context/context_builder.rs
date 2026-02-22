@@ -9,6 +9,7 @@ use comrak::plugins::syntect::SyntectAdapter;
 use crate::config::blogconfig::{BlogConfig};
 use crate::config::theme::{TaxonomyConfig, ArchiveConfig, ArchiveKind};
 use crate::content::content_source::{ContentKind, ContentSource};
+use crate::utils::filters::slugify;
 
 use super::{SiteContext, TaxonomyItem, ArchiveItem, NavLink, Pagination, PageLink};
 use super::{ListContext, ListKind, PostListItem};
@@ -166,32 +167,7 @@ pub fn link_prev_next_posts(contexts: &mut [ContentContext]) {
     }
 }
 
-// Simple slugify function
-pub fn slugify(input: &str) -> String {
-    let lowercased = input.to_lowercase();
-    let normalized = lowercased
-        .replace("c++", "cpp")
-        .replace(".net", "dotnet")
-        .replace("+", "plus")
-        .replace("#", "sharp")
-        .replace("@", "at")
-        .replace("&", "and");
-    
-    let mut output = String::new();
-    let mut prev_dash = false;
-    for ch in normalized.chars() {
-        if ch.is_alphanumeric() {
-            output.push(ch);
-            prev_dash = false;
-        } else if ch == '-' || ch.is_whitespace() {
-            if !prev_dash {
-                output.push('-');
-                prev_dash = true;
-            }
-        }
-    }
-    output.trim_matches('-').to_string()
-}
+
 
 //------------------------------------------------------------------------------
 // Internal helper functions

@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use thiserror::Error;
 use chrono::prelude::*;
 
-use crate::context::context_builder;
+use crate::utils::filters;
 use crate::utils::output;
 
 #[derive(Debug)]
@@ -81,7 +81,7 @@ draft: false
 Write your post content here.
 "#,
         title = title,
-        slug = context_builder::slugify(title),
+        slug = filters::slugify(title),
         datetime_str = Local::now().format("%Y-%m-%dT%H:%M:%S%:z").to_string(),
     );
 
@@ -117,7 +117,7 @@ draft: false
 Write your page content here.
 "#,
         title = title,
-        slug = context_builder::slugify(title),
+        slug = filters::slugify(title),
         datetime_str = Local::now().format("%Y-%m-%dT%H:%M:%S%:z").to_string(),
     );
 

@@ -15,6 +15,7 @@ This document provides a **detailed specification of all variables and objects a
 7. [Data Structure Specification](#7-data-structure-specification)
 8. [Available Variables by Template](#8-available-variables-by-template)
 9. [Practical Examples](#9-practical-examples)
+10. [Template Filters](#10-template-filters)
 
 ---
 
@@ -823,6 +824,88 @@ Represents a page number link (items in Pagination's pages array).
   {% endif %}
 </main>
 {% endblock %}
+```
+
+---
+
+## 10. Template Filters
+
+XNBlogGen provides the following custom filters in the minijinja template engine.
+
+---
+
+### `date`
+
+Formats a date/datetime string using a specified format.
+
+**Input Types**
+- RFC3339 string: `2024-01-15T09:00:00+09:00` (default format of the `date` field in front matter)
+- Plain date string: `2024-01-15`
+
+**Keyword Arguments**
+
+| Argument | Type | Default | Description |
+|----------|------|---------|-------------|
+| `fmt` | string | `%Y-%m-%d` | chrono format specifier |
+
+**Common Format Specifiers**
+
+| Specifier | Example Output | Description |
+|-----------|----------------|-------------|
+| `%Y` | `2026` | 4-digit year |
+| `%m` | `02` | 2-digit month (numeric) |
+| `%d` | `12` | 2-digit day |
+| `%B` | `February` | Full month name |
+| `%b` | `Feb` | Abbreviated month name |
+| `%A` | `Thursday` | Full weekday name |
+| `%a` | `Thu` | Abbreviated weekday name |
+| `%H` | `09` | Hour (24-hour clock) |
+| `%M` | `30` | Minute |
+| `%S` | `00` | Second |
+
+**Usage Examples**
+
+```jinja
+{# Default: 2026-02-12 #}
+{{ post.date | date }}
+
+{# Full format: February 12, 2026 #}
+{{ post.date | date(fmt="%B %d, %Y") }}
+
+{# Short format: Feb 12 #}
+{{ post.date | date(fmt="%b %d") }}
+
+{# With time: 2026-02-12 09:30 #}
+{{ post.date | date(fmt="%Y-%m-%d %H:%M") }}
+```
+
+---
+
+### `slugify`
+
+Converts a string into a URL-safe slug.
+
+**Conversion Rules**
+- Converts to lowercase
+- Replaces special symbols: `c++` → `cpp`, `.net` → `dotnet`, `+` → `plus`, `#` → `sharp`, `@` → `at`, `&` → `and`
+- Spaces and hyphens are collapsed into a single `-`
+- Non-ASCII characters (e.g., Korean, Japanese) are preserved as-is
+- Leading and trailing `-` are removed
+
+**Usage Examples**
+
+```jinja
+{# "Hello World" → "hello-world" #}
+{{ post.title | slugify }}
+
+{# "C++ Guide" → "cpp-guide" #}
+{{ post.title | slugify }}
+
+{# "C# & .NET" → "csharp-and-dotnet" #}
+{{ post.title | slugify }}
+
+{# Generate tag link #}
+<a href="/tags/{{ tag.label | slugify }}/">{{ tag.label }}</a>
 ```
 
 ---

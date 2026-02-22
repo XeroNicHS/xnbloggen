@@ -70,7 +70,7 @@ pub fn print_file(msg: &str) {
 pub fn logo() {
     println!(r#"
 ██╗  ██╗███╗  ██╗   
-╚██╗██╔╝████╗ ██║   [ xnBlogGen v0.1.0 ]
+╚██╗██╔╝████╗ ██║   [ xnBlogGen v0.1.1 ]
  ╚███╔╝ ██╔██╗██║   Simple Static Blog Generator
  ██╔██╗ ██║╚████║   BLOG: https://xeronichs.github.io
 ██╔╝ ██╗██║ ╚███║   © 2026 XeroNicHS · MIT License
